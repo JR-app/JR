@@ -43,8 +43,9 @@ func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 	tokenExchange := TokenExchange{os.Getenv("GITHUB_OAUTH_CLIENT_ID"), os.Getenv("GITHUB_OAUTH_CLIENT_SECRET"), authToken.Token, "exp://tln-tss-anonymous-8081.exp.direct"}
 	jsonBytes, err := json.Marshal(tokenExchange)
 	if err != nil {
-		fmt.Printf("githubAuthHandler json marshal\n")
+		fmt.Printf("githubAuthHandler json marshal broken\n")
 	}
+
 	resp, err := http.Post("https://github.com/login/oauth/access_token", "application/json", bytes.NewBuffer(jsonBytes))
 	if err != nil {
 		fmt.Printf("token exchange broken\n")
