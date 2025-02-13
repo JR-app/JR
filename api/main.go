@@ -5,10 +5,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/haotianli24/JR/api/internal"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/haotianli24/JR/api/internal"
 )
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
@@ -49,13 +50,35 @@ func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("githubAuthHandler json marshal broken\n")
 	}
 
-	resp, err := http.NewRequest("POST", "https://github.com/login/oauth/access_token", bytes.NewBuffer(jsonBytes))
+	req, err := http.NewRequest("POST", "https://github.com/login/oauth/access_token", bytes.NewBuffer(jsonBytes))
 	if err != nil {
 		fmt.Printf("token exchange broken\n")
 	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
+	fmt.Printf("REQUEST:\n %v\n", req)
 
-	// TODO: handle response properly
-	fmt.Printf("RESPONSE:\n %v", resp)
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Printf("error in github token exchange POST request\n")
+	}
+
+	type TokenRecieved struct {
+		AccessToken string `json:"access_token"`
+		Scope       string `json:"scope"`
+		TokenType   string `json:"token_type"`
+	}
+
+	var tokenRecieved TokenRecieved
+	recievedTokenDecoder := json.NewDecoder(resp.Body)
+	recievedTokenDecoder.Decode(&tokenRecieved)
+	if err != nil {
+		fmt.Printf("error in reading github token exchange POST request\n")
+	}
+
+	fmt.Printf("RESPONSE!!!\n%v\n", tokenRecieved)
+
 }
 
 func main() {
