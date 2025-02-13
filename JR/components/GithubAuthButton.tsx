@@ -29,6 +29,19 @@ export default function GithubAuthButton() {
   useEffect(() => {
     if (response?.type === 'success') {
       const { code } = response.params;
+      console.log("code:")
+      console.log(code);
+
+      fetch("http://localhost:3333/api/githubauth", {
+        method: "POST",
+        body: JSON.stringify({
+          "token": code
+        }),
+        headers: {
+          "Content-type": "application/json"
+        }
+      }).then((r) => r.json())
+        .then((json) => console.log(json));
     }
   }, [response]);
 

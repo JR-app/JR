@@ -21,8 +21,10 @@ func getHello(w http.ResponseWriter, r *http.Request) {
 }
 
 func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Printf("got /api/githubauth request\n")
+
 	type AuthToken struct {
-		Token	string	`json:"token"`
+		Token string `json:"token"`
 	}
 
 	var authToken AuthToken
@@ -35,10 +37,10 @@ func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Printf("%v", authToken.Token)
 	type TokenExchange struct {
-		ClientId 			string	`json:"client_id"`
-		ClientSecret 	string	`json:"client_secret"`
-		Code 					string	`json:"code"`
-		RedirectURI 	string	`json:"redirect_uri"`
+		ClientId     string `json:"client_id"`
+		ClientSecret string `json:"client_secret"`
+		Code         string `json:"code"`
+		RedirectURI  string `json:"redirect_uri"`
 	}
 	tokenExchange := TokenExchange{os.Getenv("GITHUB_OAUTH_CLIENT_ID"), os.Getenv("GITHUB_OAUTH_CLIENT_SECRET"), authToken.Token, "exp://tln-tss-anonymous-8081.exp.direct"}
 	jsonBytes, err := json.Marshal(tokenExchange)
