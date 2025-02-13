@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/haotianli24/JR/api/internal"
 	"io"
 	"net/http"
 	"os"
@@ -35,29 +36,43 @@ func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Printf("githubAuthHandler json decode error\n")
 		w.WriteHeader(http.StatusBadRequest)
 	}
-	fmt.Printf("%v", authToken.Token)
+	fmt.Printf("DEBUG CODE: %v\n", authToken.Token)
 	type TokenExchange struct {
 		ClientId     string `json:"client_id"`
 		ClientSecret string `json:"client_secret"`
 		Code         string `json:"code"`
 		RedirectURI  string `json:"redirect_uri"`
 	}
-	tokenExchange := TokenExchange{os.Getenv("GITHUB_OAUTH_CLIENT_ID"), os.Getenv("GITHUB_OAUTH_CLIENT_SECRET"), authToken.Token, "exp://tln-tss-anonymous-8081.exp.direct"}
+	tokenExchange := TokenExchange{secrets.GITHUB_OAUTH_CLIENT_ID, secrets.GITHUB_OAUTH_CLIENT_SECRET, authToken.Token, "exp://tln-tss-anonymous-8081.exp.direct"}
 	jsonBytes, err := json.Marshal(tokenExchange)
 	if err != nil {
 		fmt.Printf("githubAuthHandler json marshal broken\n")
 	}
 
-	resp, err := http.Post("https://github.com/login/oauth/access_token", "application/json", bytes.NewBuffer(jsonBytes))
+	resp, err := http.NewRequest("POST", "https://github.com/login/oauth/access_token", bytes.NewBuffer(jsonBytes))
 	if err != nil {
 		fmt.Printf("token exchange broken\n")
 	}
 
 	// TODO: handle response properly
-	fmt.Printf("%v", resp)
+	fmt.Printf("RESPONSE:\n %v", resp)
 }
 
 func main() {
+	jrapiascii := `
+    ___  ________          ________  ________  ___     
+   |\  \|\   __  \        |\   __  \|\   __  \|\  \    
+   \ \  \ \  \|\  \       \ \  \|\  \ \  \|\  \ \  \   
+ __ \ \  \ \   _  _\       \ \   __  \ \   ____\ \  \  
+|\  \\_\  \ \  \\  \|       \ \  \ \  \ \  \___|\ \  \ 
+\ \________\ \__\\ _\        \ \__\ \__\ \__\    \ \__\
+ \|________|\|__|\|__|        \|__|\|__|\|__|     \|__|
+                                                       
+                                                       
+                                                       
+
+`
+	fmt.Printf("%v", jrapiascii)
 	http.HandleFunc("/", getRoot)
 	http.HandleFunc("/hello", getHello)
 	http.HandleFunc("/api/githubauth", githubAuthHandler)

@@ -32,7 +32,7 @@ export default function GithubAuthButton() {
       console.log("code:")
       console.log(code);
 
-      fetch("http://localhost:3333/api/githubauth", {
+      fetch("https://581e-35-1-96-190.ngrok-free.app/api/githubauth", {
         method: "POST",
         body: JSON.stringify({
           "token": code
@@ -42,6 +42,8 @@ export default function GithubAuthButton() {
         }
       }).then((r) => r.json())
         .then((json) => console.log(json));
+
+      console.log("got here");
     }
   }, [response]);
 
