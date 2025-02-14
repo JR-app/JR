@@ -13,8 +13,9 @@ go run main.go
 ```
 
 #### Postgres
-no dev instance yet, will create one soon
+runs dev database on port 5432 with dummy data loaded from db/dummy-data.sql
 ```
-docker pull postgres
-docker run --name some-postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+# in repository root directory
+docker build -t jr-db-img db/
+docker run --name <container-name> -p 5432:5432 -v <volume-name>:/var/lib/postgresql/data jr-db-img
 ```
