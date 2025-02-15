@@ -9,7 +9,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/haotianli24/JR/api/internal"
+	"github.com/JR-app/JR/api/secrets"
+	"github.com/JR-app/JR/api/vars"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
@@ -44,7 +46,7 @@ func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 		Code         string `json:"code"`
 		RedirectURI  string `json:"redirect_uri"`
 	}
-	tokenExchange := TokenExchange{secrets.GITHUB_OAUTH_CLIENT_ID, secrets.GITHUB_OAUTH_CLIENT_SECRET, authToken.Token, "exp://tln-tss-anonymous-8081.exp.direct"}
+	tokenExchange := TokenExchange{vars.GITHUB_OAUTH_CLIENT_ID, secrets.GITHUB_OAUTH_CLIENT_SECRET, authToken.Token, vars.GITHUB_OAUTH_REDIRECT}
 	jsonBytes, err := json.Marshal(tokenExchange)
 	if err != nil {
 		fmt.Printf("githubAuthHandler json marshal broken\n")

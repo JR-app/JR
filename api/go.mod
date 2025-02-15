@@ -1,3 +1,5 @@
-module github.com/haotianli24/JR/api
+module github.com/JR-app/JR/api
 
 go 1.23.6
+
+require github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
