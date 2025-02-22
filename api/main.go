@@ -25,6 +25,21 @@ func getHello(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "Hello World!\n")
 }
 
+func createJWT() string {
+	var (
+		key []byte
+		t   *jwt.Token
+		s   string
+	)
+
+	key = secrets.JWT_KEY
+	t = jwt.New(jwt.SigningMethodHS256)
+	s, err := t.SignedString(key)
+	if err != nil {
+		fmt.Printf("JWT signedstring convert error\n")
+	}
+	return s
+}
 func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("got /api/githubauth request\n")
 
