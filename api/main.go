@@ -12,6 +12,7 @@ import (
 	"github.com/JR-app/JR/api/secrets"
 	"github.com/JR-app/JR/api/vars"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
@@ -33,7 +34,7 @@ func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 	var authToken AuthToken
 
-	decoder := json.NewDecoder(r.Body)
+	var decoder = json.NewDecoder(r.Body)
 	err := decoder.Decode(&authToken)
 	if err != nil {
 		fmt.Printf("githubAuthHandler json decode error\n")
