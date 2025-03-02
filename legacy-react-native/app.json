@@ -28,7 +28,11 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      ["expo-location", {
+        "locationAlwaysAndWhenInUsePermission": "Allow JR to use your location."
+      }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

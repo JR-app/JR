@@ -9,7 +9,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/haotianli24/JR/api/internal"
+	"github.com/JR-app/JR/api/secrets"
+	"github.com/JR-app/JR/api/vars"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
@@ -22,6 +25,21 @@ func getHello(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "Hello World!\n")
 }
 
+func createJWT() string {
+	var (
+		key []byte
+		t   *jwt.Token
+		s   string
+	)
+
+	key = secrets.JWT_KEY
+	t = jwt.New(jwt.SigningMethodHS256)
+	s, err := t.SignedString(key)
+	if err != nil {
+		fmt.Printf("JWT signedstring convert error\n")
+	}
+	return s
+}
 func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("got /api/githubauth request\n")
 
@@ -31,7 +49,7 @@ func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 	var authToken AuthToken
 
-	decoder := json.NewDecoder(r.Body)
+	var decoder = json.NewDecoder(r.Body)
 	err := decoder.Decode(&authToken)
 	if err != nil {
 		fmt.Printf("githubAuthHandler json decode error\n")
@@ -44,7 +62,7 @@ func githubAuthHandler(w http.ResponseWriter, r *http.Request) {
 		Code         string `json:"code"`
 		RedirectURI  string `json:"redirect_uri"`
 	}
-	tokenExchange := TokenExchange{secrets.GITHUB_OAUTH_CLIENT_ID, secrets.GITHUB_OAUTH_CLIENT_SECRET, authToken.Token, "exp://tln-tss-anonymous-8081.exp.direct"}
+	tokenExchange := TokenExchange{vars.GITHUB_OAUTH_CLIENT_ID, secrets.GITHUB_OAUTH_CLIENT_SECRET, authToken.Token, vars.GITHUB_OAUTH_REDIRECT}
 	jsonBytes, err := json.Marshal(tokenExchange)
 	if err != nil {
 		fmt.Printf("githubAuthHandler json marshal broken\n")
