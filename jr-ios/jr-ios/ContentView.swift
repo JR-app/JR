@@ -9,15 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     @State var topBarShown = false
+    @State var currentCompetitionName = "competition"
     
     var body: some View {
         ZStack {
             VStack {
                 TopBarView(topBarShown: $topBarShown)
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-                Text("Hello, JR!")
+                CompetitionView(currentCompetitionName: $currentCompetitionName)
                 Spacer()
             }
             .padding()
