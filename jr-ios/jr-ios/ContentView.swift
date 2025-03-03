@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var topBarShown = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, JR!")
+        ZStack {
+            VStack {
+                TopBarView(topBarShown: $topBarShown)
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundStyle(.tint)
+                Text("Hello, JR!")
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
+#Preview {
+    MainView()
+}
