@@ -14,6 +14,7 @@ struct MainView: View {
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
+          
             // TODO: replace competitionview placeholder
             ContentView()
                 .tabItem{
