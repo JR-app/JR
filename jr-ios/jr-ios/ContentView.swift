@@ -8,14 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var topBarShown = false
+    @State var currentCompetitionName = "competition"
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, JR!")
+        ZStack {
+            VStack {
+                TopBarView(topBarShown: $topBarShown)
+                CompetitionView(currentCompetitionName: $currentCompetitionName)
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
+
+#Preview {
+    MainView()
+}
