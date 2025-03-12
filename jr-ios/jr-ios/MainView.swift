@@ -11,14 +11,13 @@ struct MainView: View {
     var body: some View {
         TabView {
             // TODO: replace competitionview placeholder
-            FocusView()
-                .tabItem{
-                    Label("Focus", systemImage: "command")
-                }
-            
             ContentView()
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
+                }
+            FocusView()
+                .tabItem{
+                    Label("Focus", systemImage: "command")
                 }
         }
         
