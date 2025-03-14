@@ -10,17 +10,19 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         TabView {
+            // TODO: replace competitionview placeholder
             ContentView()
                 .tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
-          
-            // TODO: replace competitionview placeholder
-            ContentView()
+            FocusView()
                 .tabItem{
-                    Label("Tab2", systemImage: "command")
+                    Label("Focus", systemImage: "command")
                 }
-            
+            ProfileView()
+                .tabItem{
+                    Label("Profile", systemImage: "command")
+                }
         }
         
     }
