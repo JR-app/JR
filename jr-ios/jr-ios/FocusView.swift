@@ -34,7 +34,7 @@ struct PopupView: View {
                 }) {
                     Image(systemName: "xmark.circle")
                         .resizable()
-                        .frame(width: 28.0, height: 28.0)
+                        .frame(width: 27.0, height: 27.0)
                         .padding(10)
                 }
             }
