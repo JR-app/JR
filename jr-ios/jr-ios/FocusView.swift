@@ -15,6 +15,7 @@ struct PopupView: View {
         ZStack{
             VStack (){
                 closeButton
+                TimeScrollSelectView()
                 Spacer()
                 startButton
                 Spacer().frame(height: 75)
