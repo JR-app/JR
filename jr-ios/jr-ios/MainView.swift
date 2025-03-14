@@ -19,6 +19,10 @@ struct MainView: View {
                 .tabItem{
                     Label("Focus", systemImage: "command")
                 }
+            ProfileView()
+                .tabItem{
+                    Label("Profile", systemImage: "command")
+                }
         }
         
     }
