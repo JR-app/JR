@@ -12,24 +12,53 @@ struct PopupView: View {
     @Binding var isPresented: Bool
     
     var body: some View {
+        ZStack{
             VStack (){
-                Button(action: {
-                    isPresented = false
-                })
-                    {
-                        Text("Block")
-                    }
-                Button(action: {
-                    isPresented = false
-                }) {
-                    Text("Close")
-                }
+                closeButton
+                Spacer()
+                startButton
+                Spacer().frame(height: 75)
             }
             .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.height * 0.6)
             .background(Color.white)
             .cornerRadius(10)
             .shadow(radius: 16)
         }
+    }
+    var closeButton: some View {
+        VStack {
+            HStack {
+                Spacer()
+                Button(action: {
+                    isPresented = false;
+                }) {
+                    Image(systemName: "xmark.circle")
+                        .resizable()
+                        .frame(width: 28.0, height: 28.0)
+                        .padding(10)
+                }
+            }
+            .padding(.top, 5)
+        }
+    
+    }
+    var startButton: some View {
+        HStack {
+            Spacer()
+            Button(action: {
+                
+            }) {
+                Text("Start")
+                    .font(.system(size:22))
+                    .padding(.horizontal, 30)
+                    .padding(.vertical, 8)
+                    .background(Color(red: 30/255, green: 30/255, blue: 30/255))
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            Spacer()
+        }
+    }
     
 }
 
